@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string></string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>3D1CE7A8-69F5-4C09-B4E4-54EC448BD8E2</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>7A1F7DDF-B644-40B9-A2CD-5992253EDFA7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>FF733566-DAD5-4964-AABA-EE65FB0D9761</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>justwkj</string>
+	<key>description</key>
+	<string>莫一兮JSON工具</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>JSON工具</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>7A1F7DDF-B644-40B9-A2CD-5992253EDFA7</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>100</integer>
+				<key>keyword</key>
+				<string>json</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>&lt;?php
+
+function outputJson($data) {
+    $itemArr = [];
+    foreach ($data as $datum) {
+        $tmp = [
+            'title' =&gt; $datum['title'],
+            'arg'   =&gt; isset($datum['arg']) ? $datum['arg'] : '',
+        ];
+        if (isset($datum['quicklookurl'])) {
+            $tmp['quicklookurl'] = $datum['quicklookurl'];
+        }
+        $itemArr[] = $tmp;
+    }
+    $data = ['items' =&gt; $itemArr];
+    echo json_encode($data);
+    die;
+}
+
+
+$query = empty($argv[1]) ? '' : $argv[1];
+//$prettyJson = 'chrome-extension://pkgccpejnmalmdinmhkkfafefagiiiad/dynamic/index.html?tool=json-format';
+$prettyJson = 'http://json.la/';
+$input = shell_exec('pbpaste');
+if (!is_array(json_decode($input, true))) {
+    outputJson([
+        [
+            "title" =&gt; 'JSON格式有误!!!',
+            "arg"   =&gt; '',
+        ],
+        [
+            "title" =&gt; 'JSON美化工具, command+enter 跳转',
+            "arg"   =&gt; $prettyJson,
+            'quicklookurl' =&gt; $prettyJson,
+        ]
+    ]);
+}
+$input = json_encode(json_decode($input, true), 256);
+
+$miniJson = $input;
+
+$data = [];
+if (in_array($query, ['yasuo', 'm', 'y'])) {
+    $data = [
+        [
+            'title' =&gt; '压缩JSON',
+            'arg'   =&gt; $miniJson,
+        ],
+    ];
+} else if (in_array($query, ['meihua', 'g', 'p'])) {
+    $data = [
+
+        [
+            'title'        =&gt; 'JSON美化工具, command+enter 跳转',
+            'arg'          =&gt; $prettyJson,
+            'quicklookurl' =&gt; $prettyJson,
+        ],
+    ];
+} else {
+    $data = [
+        [
+            'title' =&gt; '压缩JSON',
+            'arg'   =&gt; $miniJson,
+        ],
+        [
+            'title'        =&gt; 'JSON美化工具, command+enter 跳转',
+            'arg'          =&gt; $prettyJson,
+            'quicklookurl' =&gt; $prettyJson,
+        ],
+    ];
+}
+
+
+outputJson($data);
+
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>JSON工具</string>
+				<key>type</key>
+				<integer>1</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>3D1CE7A8-69F5-4C09-B4E4-54EC448BD8E2</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>FF733566-DAD5-4964-AABA-EE65FB0D9761</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>3D1CE7A8-69F5-4C09-B4E4-54EC448BD8E2</key>
+		<dict>
+			<key>xpos</key>
+			<integer>90</integer>
+			<key>ypos</key>
+			<integer>120</integer>
+		</dict>
+		<key>7A1F7DDF-B644-40B9-A2CD-5992253EDFA7</key>
+		<dict>
+			<key>xpos</key>
+			<integer>350</integer>
+			<key>ypos</key>
+			<integer>120</integer>
+		</dict>
+		<key>FF733566-DAD5-4964-AABA-EE65FB0D9761</key>
+		<dict>
+			<key>xpos</key>
+			<integer>385</integer>
+			<key>ypos</key>
+			<integer>270</integer>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>github.com/justwkj</string>
+</dict>
+</plist>

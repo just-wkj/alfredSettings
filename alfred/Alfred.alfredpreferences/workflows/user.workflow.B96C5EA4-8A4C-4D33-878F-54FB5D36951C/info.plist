@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string></string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>C5BA1FB3-D1AE-4DC0-BBB2-090ABBF155F1</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>DA8119D5-A7F2-4831-918F-8B9FE4858D19</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>just-wkj</string>
+	<key>description</key>
+	<string>数组格式化工具</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>format</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>100</integer>
+				<key>keyword</key>
+				<string>format</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>&lt;?php
+/**
+ * @author: justwkj
+ * @date: 2020/7/22 13:17
+ * @email: justwkj@gmail.com
+ * @desc:
+ */
+
+
+function outputJson($data) {
+    $itemArr = [];
+    foreach ($data as $datum) {
+        $tmp = [
+            'title' =&gt; $datum['title'],
+            'arg'   =&gt; isset($datum['arg']) ? $datum['arg'] : '',
+        ];
+        if (isset($datum['quicklookurl'])) {
+            $tmp['quicklookurl'] = $datum['quicklookurl'];
+        }
+        $itemArr[] = $tmp;
+    }
+    $data = ['items' =&gt; $itemArr];
+    echo json_encode($data);
+    die;
+}
+
+
+$query = empty($argv[1]) ? '' : $argv[1];
+$input = shell_exec('pbpaste');
+
+$array = array_filter(preg_split('/\s+/', $input));
+
+$joinSeparated = $query == '"' ? '"' : "'";
+
+$str = '';
+foreach ($array as $item) {
+    $str .= sprintf('%s%s%s,' . PHP_EOL, $joinSeparated, $item, $joinSeparated);
+}
+outputJson([[
+    "title" =&gt; '格式化完毕:' . $str,
+    "arg"   =&gt; $str,
+]]);
+
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>格式化工具:请输入单引号或双引号</string>
+				<key>type</key>
+				<integer>1</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>C5BA1FB3-D1AE-4DC0-BBB2-090ABBF155F1</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>DA8119D5-A7F2-4831-918F-8B9FE4858D19</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>C5BA1FB3-D1AE-4DC0-BBB2-090ABBF155F1</key>
+		<dict>
+			<key>xpos</key>
+			<integer>165</integer>
+			<key>ypos</key>
+			<integer>200</integer>
+		</dict>
+		<key>DA8119D5-A7F2-4831-918F-8B9FE4858D19</key>
+		<dict>
+			<key>xpos</key>
+			<integer>495</integer>
+			<key>ypos</key>
+			<integer>205</integer>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>github.com/just-wkj</string>
+</dict>
+</plist>
