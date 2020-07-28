@@ -1,0 +1,13 @@
+name: Sync To Gitee
+on: page_build
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wearerequired/git-mirror-action@master
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.GITEE }}
+        with:
+          source-repo: "git@gitee.com:justwkj/alfredSettings.git"
+          destination-repo: "git@gitee.com:justwkj/alfredSettings.git"
+
