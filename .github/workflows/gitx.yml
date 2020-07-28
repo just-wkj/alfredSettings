@@ -6,9 +6,9 @@ jobs:
   git-mirror:
     runs-on: ubuntu-latest
     steps:
-      - uses: wearerequired/git-mirror-action@v1
+      - uses: wearerequired/git-mirror-action@master
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.GIEE }}
+          SSH_PRIVATE_KEY: ${{ secrets.GITEE }}
         with:
           # source-repo: 'git@github.com:wearerequired/swisscom-magazine.git'
           # destination-repo: 'git@bitbucket.org:wearerequired/git-mirror-action.git'
