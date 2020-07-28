@@ -17,7 +17,7 @@ jobs:
           # 注意替换为你的 GitHub 源仓库地址
           # source-repo: "git@github.com:doocs/advanced-java.git"
           source-repo: 'git@github.com:just-wkj/alfredSettings.git'
-          # 注意替换为你的 Gitee 目标仓库地址
+          # 注意替换为你的 Gitee 目标仓库地址 
           # destination-repo: "git@gitee.com:Doocs/advanced-java.git"
           destination-repo: 'git@gitee.com:justwkj/alfredSettings.git'
 
